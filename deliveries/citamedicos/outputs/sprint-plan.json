@@ -1,0 +1,9 @@
+{
+  "sprint": 1,
+  "sprint_goal": "Al final del Sprint 1, la recepcionista agenda citas sin conflictos desde un calendario unificado, el médico accede a la ficha clínica del paciente en menos de 3 segundos y los pacientes reciben recordatorios automáticos por correo — eliminando las fuentes manuales de error más frecuentes.",
+  "capacity": 20,
+  "committed": 19,
+  "buffer": 1,
+  "stories": ["US-01", "US-02", "US-03", "US-04", "US-05"],
+  "deferred": ["US-06", "US-07"]
+}

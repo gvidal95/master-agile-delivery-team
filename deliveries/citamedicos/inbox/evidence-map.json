@@ -1,0 +1,23 @@
+{
+  "personas": [
+    { "name": "R. (recepcionista)", "role": "recepcionista", "primary": true },
+    { "name": "M. (médico especialista)", "role": "medico_especialista", "primary": true },
+    { "name": "F. (responsable de facturación)", "role": "responsable_facturacion", "primary": true },
+    { "name": "Paciente", "role": "paciente", "primary": false }
+  ],
+  "pains": [
+    { "id": "conflictos-horario", "source": "recepcionista.md", "persona": "Recepcionista" },
+    { "id": "sistemas-fragmentados", "source": "recepcionista.md", "persona": "Recepcionista" },
+    { "id": "reagendamiento-manual", "source": "recepcionista.md", "persona": "Recepcionista" },
+    { "id": "verificacion-manual-disponibilidad", "source": "recepcionista.md", "persona": "Recepcionista" },
+    { "id": "sin-recordatorios", "source": "recepcionista.md", "persona": "Recepcionista" },
+    { "id": "sin-lista-espera", "source": "recepcionista.md", "persona": "Recepcionista" },
+    { "id": "informacion-dispersa", "source": "medico.md", "persona": "Médico Especialista" },
+    { "id": "busqueda-lenta-hc", "source": "medico.md", "persona": "Médico Especialista" },
+    { "id": "riesgo-omision-datos", "source": "medico.md", "persona": "Médico Especialista" },
+    { "id": "procedimientos-mal-registrados", "source": "responsable_facturacion.md", "persona": "Responsable de Facturación" },
+    { "id": "consolidacion-manual-servicios", "source": "responsable_facturacion.md", "persona": "Responsable de Facturación" },
+    { "id": "validacion-aseguradoras-lenta", "source": "responsable_facturacion.md", "persona": "Responsable de Facturación" },
+    { "id": "duplicacion-trabajo", "source": "responsable_facturacion.md", "persona": "Responsable de Facturación" }
+  ]
+}

@@ -1,0 +1,199 @@
+{
+  "epics": [
+    {
+      "id": "E-01",
+      "title": "Agenda Unificada",
+      "value": "La recepcionista agenda citas desde una única fuente de verdad en tiempo real con bloqueo automático de conflictos, logrando 0 citas dobles al finalizar el primer mes de operación y eliminando los recordatorios manuales a pacientes.",
+      "priority": 1,
+      "origin": [
+        "mvp:funcionalidades-minimas-1",
+        "mvp:funcionalidades-minimas-2",
+        "mvp:metrica-conflictos-0",
+        "persona:recepcionista",
+        "pain:conflictos-horario",
+        "pain:sistemas-fragmentados",
+        "pain:sin-recordatorios",
+        "req:R-01",
+        "req:R-02",
+        "req:R-03",
+        "req:R-05"
+      ]
+    },
+    {
+      "id": "E-02",
+      "title": "Historia Clínica Centralizada",
+      "value": "El médico especialista accede a la historia clínica completa del paciente en menos de 3 segundos desde cualquier sede, elimina la dependencia de documentos físicos y registra la evolución de cada consulta como historial cronológico accesible.",
+      "priority": 2,
+      "origin": [
+        "mvp:funcionalidades-minimas-3",
+        "mvp:metrica-hc-menos-3s",
+        "persona:medico_especialista",
+        "pain:informacion-dispersa",
+        "pain:busqueda-lenta-hc",
+        "pain:riesgo-omision-datos",
+        "req:R-07",
+        "req:R-08",
+        "req:R-09",
+        "req:R-17",
+        "req:R-18"
+      ]
+    },
+    {
+      "id": "E-03",
+      "title": "Facturación Automática",
+      "value": "El responsable de facturación recibe automáticamente todos los servicios realizados en cada visita sin transcripción manual y genera facturas consolidadas, alcanzando un traspaso automático >= 95 % en las primeras cuatro semanas.",
+      "priority": 3,
+      "origin": [
+        "mvp:funcionalidades-minimas-4",
+        "mvp:metrica-traspaso-95pct",
+        "persona:responsable_facturacion",
+        "pain:procedimientos-mal-registrados",
+        "pain:consolidacion-manual-servicios",
+        "pain:duplicacion-trabajo",
+        "req:R-12",
+        "req:R-13",
+        "req:R-15"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-02",
+      "epic": "E-01",
+      "as_a": "recepcionista",
+      "want": "que el sistema rechace automáticamente el registro de una cita si el horario o el consultorio ya está ocupado",
+      "so_that": "eliminar citas dobles sin depender de mi verificación manual",
+      "acceptance_criteria": [
+        "Dado que un horario está ocupado, cuando la recepcionista intenta registrar otra cita en ese mismo horario y consultorio, entonces el sistema bloquea la operación y muestra un mensaje indicando el conflicto.",
+        "Dado que la cita se registra correctamente, cuando se confirma la reserva, entonces el horario queda bloqueado de inmediato para el resto de usuarios."
+      ],
+      "estimate": 3,
+      "dependencies": ["US-01"],
+      "open_questions": [],
+      "priority": 1,
+      "origin": ["us:US-02", "req:R-02"]
+    },
+    {
+      "id": "US-01",
+      "epic": "E-01",
+      "as_a": "recepcionista",
+      "want": "ver en un único calendario la disponibilidad de todos los médicos y consultorios en tiempo real",
+      "so_that": "agendar citas sin revisar varias fuentes ni llamar a colegas",
+      "acceptance_criteria": [
+        "Dado que la recepcionista abre el módulo de agenda, cuando selecciona un médico y una fecha, entonces el sistema muestra todos los horarios disponibles y ocupados de ese médico para ese día.",
+        "Dado que hay más de un médico activo, cuando la recepcionista filtra por especialidad, entonces el calendario muestra únicamente los médicos de esa especialidad."
+      ],
+      "estimate": 5,
+      "dependencies": [],
+      "open_questions": [],
+      "priority": 2,
+      "origin": ["us:US-01", "req:R-01", "req:R-03"]
+    },
+    {
+      "id": "US-04",
+      "epic": "E-02",
+      "as_a": "médico especialista",
+      "want": "acceder a los antecedentes, alergias y medicamentos actuales del paciente al iniciar la consulta",
+      "so_that": "no depender de documentos físicos dispersos ni tener que preguntar datos ya registrados",
+      "acceptance_criteria": [
+        "Dado que el médico inicia una consulta, cuando busca al paciente por nombre o número de historia, entonces el sistema muestra en menos de 3 segundos sus antecedentes, alergias activas y medicamentos actuales.",
+        "Dado que el paciente tiene alergias registradas, cuando el médico accede a su ficha, entonces las alergias se muestran destacadas visualmente antes del resto de la información."
+      ],
+      "estimate": 5,
+      "dependencies": [],
+      "open_questions": [],
+      "priority": 3,
+      "origin": ["us:US-04", "req:R-07", "req:R-08", "req:R-17"]
+    },
+    {
+      "id": "US-05",
+      "epic": "E-02",
+      "as_a": "médico especialista",
+      "want": "registrar los hallazgos y diagnóstico de cada consulta de forma estructurada",
+      "so_that": "queden disponibles como historial cronológico en visitas futuras y accesibles desde cualquier sede",
+      "acceptance_criteria": [
+        "Dado que el médico terminó la consulta, cuando guarda la nota de evolución, entonces queda asociada al paciente en orden cronológico y visible para cualquier médico autorizado de la clínica.",
+        "Dado que el médico busca consultas anteriores, cuando abre el historial, entonces las entradas aparecen ordenadas por fecha con médico tratante y diagnóstico principal."
+      ],
+      "estimate": 3,
+      "dependencies": ["US-04"],
+      "open_questions": [],
+      "priority": 4,
+      "origin": ["us:US-05", "req:R-09", "req:R-18"]
+    },
+    {
+      "id": "US-06",
+      "epic": "E-03",
+      "as_a": "responsable de facturación",
+      "want": "que los servicios realizados en cada visita lleguen automáticamente al módulo de facturación",
+      "so_that": "eliminar la transcripción manual y la duplicación de trabajo entre áreas",
+      "acceptance_criteria": [
+        "Dado que el médico cierra una consulta y registra los procedimientos realizados, cuando el responsable de facturación abre el expediente de esa visita, entonces los procedimientos aparecen con código, descripción y precio sin ingreso manual.",
+        "Dado que ocurre un error de traspaso, cuando el sistema no puede transferir un servicio, entonces notifica al responsable de facturación con el detalle del problema."
+      ],
+      "estimate": 5,
+      "dependencies": ["US-05"],
+      "open_questions": [],
+      "priority": 5,
+      "origin": ["us:US-06", "req:R-12"]
+    },
+    {
+      "id": "US-07",
+      "epic": "E-03",
+      "as_a": "responsable de facturación",
+      "want": "que el sistema consolide todos los servicios de una misma visita y genere la factura correspondiente",
+      "so_that": "no armar manualmente la cuenta de pacientes que recibieron varias atenciones",
+      "acceptance_criteria": [
+        "Dado que un paciente recibió más de un servicio en la misma visita, cuando el responsable de facturación solicita generar la factura, entonces el sistema muestra un resumen con todos los servicios consolidados y el total antes de confirmar.",
+        "Dado que la factura se confirma, cuando el sistema la registra, entonces el estado del pago queda visible para seguimiento posterior."
+      ],
+      "estimate": 3,
+      "dependencies": ["US-06"],
+      "open_questions": [],
+      "priority": 6,
+      "origin": ["us:US-07", "req:R-13", "req:R-15"]
+    },
+    {
+      "id": "US-03",
+      "epic": "E-01",
+      "as_a": "recepcionista",
+      "want": "que el sistema envíe un recordatorio automático al paciente 24 horas antes de su cita por correo electrónico",
+      "so_that": "reducir inasistencias sin tener que llamarles manualmente",
+      "acceptance_criteria": [
+        "Dado que una cita está confirmada, cuando faltan 24 horas para la cita, entonces el sistema envía automáticamente un correo electrónico al paciente con fecha, hora y nombre del médico.",
+        "Dado que el recordatorio se envió, cuando la recepcionista revisa la cita, entonces el sistema muestra el estado 'recordatorio enviado' con marca de tiempo."
+      ],
+      "estimate": 3,
+      "dependencies": ["US-01"],
+      "open_questions": [],
+      "priority": 7,
+      "origin": ["us:US-03", "req:R-05"]
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-01",
+      "description": "Canal de notificación para recordatorios (US-03): RESUELTA. Decisión de MVP: canal = correo electrónico. Motivo: menor complejidad de integración en el MVP; no requiere proveedor de SMS ni WhatsApp Business API. Las historias US-03 ya incorporan esta decisión.",
+      "origin": ["us:US-03", "req:R-05"],
+      "status": "resuelta"
+    },
+    {
+      "id": "OQ-02",
+      "description": "SLA de carga del calendario (US-01): RESUELTA. El inbox no define un SLA explícito para la vista de agenda (R-17 aplica exclusivamente a la HC, < 3 s). La historia US-01 no promete tiempo de respuesta específico para el calendario; la duda no bloquea la historia. Se difiere la definición de SLA del calendario a la segunda iteración.",
+      "origin": ["us:US-01", "req:R-01", "req:R-17"],
+      "status": "resuelta"
+    },
+    {
+      "id": "OQ-03",
+      "description": "Permisos granulares por rol sobre la HC (R-18): RESUELTA. Decisión de MVP: cualquier usuario con rol 'médico' y sesión activa en la clínica puede leer la HC. Las restricciones granulares (médico tratante vs. guardia vs. otra especialidad) se difieren a la segunda iteración. Los criterios de aceptación de US-04 y US-05 expresan 'médico autorizado de la clínica', suficiente para el MVP.",
+      "origin": ["req:R-18", "us:US-04", "us:US-05"],
+      "status": "resuelta"
+    },
+    {
+      "id": "OQ-04",
+      "description": "Migración de datos históricos de pacientes: el mvp-canvas.md lo identifica como supuesto de riesgo alto. Si la migración es precondición para el MVP, debe declararse como historia técnica en el backlog antes del primer sprint.",
+      "origin": ["mvp:riesgos-supuestos"],
+      "status": "abierta"
+    }
+  ]
+}
